@@ -8,14 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var viewModel = LoginViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Dat xin chao")
+//        if viewModel.isLoading {
+//            ProgressView()
+//        } else {
+//            if viewModel.isLogin {
+//                StateObjectSwift(user: $viewModel.user) {
+//                    viewModel.login()
+//                }
+//            } else {
+//                LoggedInView()
+//            }
+//        }
+        
+        switch viewModel.currentState {
+        case .loading:
+            ProgressView()
+        case .notLoggedIn:
+//            StateObjectSwift(user: $viewModel.user) {
+//                               viewModel.login()
+//                           }
+            StateObjectSwift(viewModel: viewModel)
+        case .loggedIn:
+//            LoggedInView() {
+//                viewModel.logout()
+//            }
+            LoggedInView(viewModel: viewModel)
         }
-        .padding()
+        
     }
 }
 
